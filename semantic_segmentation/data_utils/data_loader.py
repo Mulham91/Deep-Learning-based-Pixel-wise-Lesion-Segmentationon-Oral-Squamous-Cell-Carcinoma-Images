@@ -14,8 +14,7 @@ except ImportError:
         return iter
 
 
-from ..models.config import IMAGE_ORDERING
-from .augmentation import augment_seg
+from models.config import IMAGE_ORDERING
 
 DATA_LOADER_SEED = 0
 
@@ -29,10 +28,7 @@ class DataLoaderError(Exception):
 
 
 def get_pairs_from_paths(images_path, segs_path, ignore_non_matching=False):
-    """ Find all the images from the images_path directory and
-        the segmentation images from the segs_path directory
-        while checking integrity of data """
-
+  
     ACCEPTABLE_IMAGE_FORMATS = [".jpg", ".jpeg", ".png", ".bmp"]
     ACCEPTABLE_SEGMENTATION_FORMATS = [".png", ".bmp"]
 
@@ -205,9 +201,7 @@ def image_segmentation_generator(images_path, segs_path, batch_size,
             im = cv2.imread(im, 1)
             seg = cv2.imread(seg, 1)
 
-            if do_augment:
-                im, seg[:, :, 0] = augment_seg(im, seg[:, :, 0],
-                                               augmentation_name)
+            
 
             X.append(get_image_array(im, input_width,
                                      input_height, ordering=IMAGE_ORDERING))

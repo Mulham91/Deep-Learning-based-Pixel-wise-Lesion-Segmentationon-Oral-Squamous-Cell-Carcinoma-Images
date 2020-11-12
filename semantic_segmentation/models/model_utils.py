@@ -5,9 +5,9 @@ from keras.layers import *
 import keras.backend as K
 from tqdm import tqdm
 
-from .config import IMAGE_ORDERING
+from config import IMAGE_ORDERING
 from ..train import train
-from ..predict import predict, predict_multiple, evaluate
+
 
 
 # source m1 , dest m2
@@ -51,8 +51,7 @@ def resize_image(inp,  s, data_format):
                                                 interpolation='bilinear'))(inp)
 
     except Exception as e:
-        # if keras is old, then rely on the tf function
-        # Sorry theano/cntk users!!!
+
         assert data_format == 'channels_last'
         assert IMAGE_ORDERING == 'channels_last'
 
@@ -98,8 +97,6 @@ def get_segmentation_model(input, output):
     model.model_name = ""
 
     model.train = MethodType(train, model)
-    model.predict_segmentation = MethodType(predict, model)
-    model.predict_multiple = MethodType(predict_multiple, model)
-    model.evaluate_segmentation = MethodType(evaluate, model)
+
 
     return model

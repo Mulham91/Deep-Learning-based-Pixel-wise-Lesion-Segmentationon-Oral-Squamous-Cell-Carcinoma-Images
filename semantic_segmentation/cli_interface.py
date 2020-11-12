@@ -3,10 +3,8 @@
 import sys
 import argparse
 
-from .train import train
-from .predict import predict, predict_multiple, predict_video, evaluate
-from .data_utils.data_loader import verify_segmentation_dataset
-from .data_utils.visualize_dataset import visualize_segmentation_dataset
+from train import train
+from data_utils.data_loader import verify_segmentation_dataset
 
 
 def train_action(command_parser):
@@ -95,20 +93,7 @@ def predict_video_action(command_parser):
     parser.set_defaults(func=action)
 
 
-def evaluate_model_action(command_parser):
-
-    parser = command_parser.add_parser('evaluate_model')
-    parser.add_argument("--images_path", type=str, required=True)
-    parser.add_argument("--segs_path", type=str, required=True)
-    parser.add_argument("--checkpoints_path", type=str, required=True)
-
-    def action(args):
-        print(evaluate(
-            inp_images_dir=args.images_path, annotations_dir=args.segs_path,
-            checkpoints_path=args.checkpoints_path))
-
-    parser.set_defaults(func=action)
-
+   
 
 def verify_dataset_action(command_parser):
 
@@ -124,13 +109,7 @@ def verify_dataset_action(command_parser):
     parser.set_defaults(func=action)
 
 
-def visualize_dataset_action(command_parser):
 
-    parser = command_parser.add_parser('visualize_dataset')
-    parser.add_argument("--images_path", type=str)
-    parser.add_argument("--segs_path", type=str)
-    parser.add_argument("--n_classes", type=int)
-    parser.add_argument('--do_augment', action='store_true')
 
     def action(args):
         visualize_segmentation_dataset(args.images_path, args.segs_path,
@@ -149,11 +128,7 @@ def main():
 
     # Add individual commands
     train_action(command_parser)
-    predict_action(command_parser)
-    predict_video_action(command_parser)
     verify_dataset_action(command_parser)
-    visualize_dataset_action(command_parser)
-    evaluate_model_action(command_parser)
 
     args = main_parser.parse_args()
 

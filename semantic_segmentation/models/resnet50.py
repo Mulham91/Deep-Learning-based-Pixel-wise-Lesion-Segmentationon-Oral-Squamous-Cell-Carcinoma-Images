@@ -3,11 +3,9 @@ from keras.models import *
 from keras.layers import *
 from keras import layers
 
-# Source:
-# https://github.com/fchollet/deep-learning-models/blob/master/resnet50.py
 
 
-from .config import IMAGE_ORDERING
+from config import IMAGE_ORDERING
 
 
 if IMAGE_ORDERING == 'channels_first':
@@ -30,17 +28,7 @@ def one_side_pad(x):
 
 
 def identity_block(input_tensor, kernel_size, filters, stage, block):
-    """The identity block is the block that has no conv layer at shortcut.
-    # Arguments
-        input_tensor: input tensor
-        kernel_size: defualt 3, the kernel size of middle conv layer at
-                     main path
-        filters: list of integers, the filterss of 3 conv layer at main path
-        stage: integer, current stage label, used for generating layer names
-        block: 'a','b'..., current block label, used for generating layer names
-    # Returns
-        Output tensor for the block.
-    """
+  
     filters1, filters2, filters3 = filters
 
     if IMAGE_ORDERING == 'channels_last':

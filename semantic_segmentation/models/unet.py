@@ -1,12 +1,12 @@
 from keras.models import *
 from keras.layers import *
 
-from .config import IMAGE_ORDERING
-from .model_utils import get_segmentation_model
-from .vgg16 import get_vgg_encoder
-from .mobilenet import get_mobilenet_encoder
-from .basic_models import vanilla_encoder
-from .resnet50 import get_resnet50_encoder
+from config import IMAGE_ORDERING
+from model_utils import get_segmentation_model
+from vgg16 import get_vgg_encoder
+from mobilenet import get_mobilenet_encoder
+from basic_models import vanilla_encoder
+from resnet50 import get_resnet50_encoder
 
 
 if IMAGE_ORDERING == 'channels_first':
@@ -133,18 +133,10 @@ def resnet50_unet(n_classes, input_height=416, input_width=608,
     return model
 
 
-def mobilenet_unet(n_classes, input_height=224, input_width=224,
-                   encoder_level=3):
-
-    model = _unet(n_classes, get_mobilenet_encoder,
-                  input_height=input_height, input_width=input_width)
-    model.model_name = "mobilenet_unet"
-    return model
 
 
 if __name__ == '__main__':
     m = unet_mini(101)
     m = _unet(101, vanilla_encoder)
-    # m = _unet( 101 , get_mobilenet_encoder ,True , 224 , 224  )
     m = _unet(101, get_vgg_encoder)
     m = _unet(101, get_resnet50_encoder)
